@@ -1,7 +1,7 @@
 // climate-button-card.js
 // Vanilla JS custom Lovelace card for any climate entity (aircon, boiler, etc.)
-// Compact horizontal layout: left info column (140px) + right button rows, matching the
-// original button-card-templates design (aircon_info / aircon_power / aircon_mode / aircon_temp).
+// Compact horizontal layout: left info column (140px, 2 rows x 2 cols) + right button rows,
+// matching the original button-card-templates design (aircon_info / power / mode / temp).
 
 const STATE_LABELS = {
   cool: "냉방",
@@ -78,7 +78,8 @@ class ClimateButtonCard extends HTMLElement {
             padding: 2px 4px;
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; cursor:pointer; }
-          .cbc-line { display:flex; justify-content:space-between; align-items:center; font-size:10px; }
+          .cbc-pairrow { display:flex; justify-content:space-between; align-items:center; }
+          .cbc-cell { display:flex; align-items:center; gap:4px; font-size:10px; }
           .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; min-width:24px; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
@@ -126,31 +127,39 @@ class ClimateButtonCard extends HTMLElement {
         <span style="color:${state !== "off" ? color : ""}">${label}</span>
       </div>
     `;
+    // row1: 현재 | 설정
     html += `
-      <div class="cbc-line">
-        <span class="cbc-badge" style="border:1px solid white">현재</span>
-        <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
-      </div>
-      <div class="cbc-line">
-        <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
-        <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
+      <div class="cbc-pairrow">
+        <div class="cbc-cell">
+          <span class="cbc-badge" style="border:1px solid white">현재</span>
+          <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
+        </div>
+        <div class="cbc-cell">
+          <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
+          <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
+        </div>
       </div>
     `;
-    if (tempSensor) {
-      html += `
-        <div class="cbc-line">
-          <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
-          <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
-        </div>
-      `;
-    }
-    if (humiSensor) {
-      html += `
-        <div class="cbc-line">
-          <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
-          <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
-        </div>
-      `;
+    // row2: 온도 | 습도 (있을 때만)
+    if (tempSensor || humiSensor) {
+      html += `<div class="cbc-pairrow">`;
+      html += tempSensor
+        ? `
+          <div class="cbc-cell">
+            <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
+            <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
+          </div>
+        `
+        : `<div class="cbc-cell"></div>`;
+      html += humiSensor
+        ? `
+          <div class="cbc-cell">
+            <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
+            <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
+          </div>
+        `
+        : `<div class="cbc-cell"></div>`;
+      html += `</div>`;
     }
     html += `</div>`; // .cbc-left
 
@@ -233,7 +242,7 @@ window.customCards.push({
 });
 
 console.info(
-  "%c CLIMATE-BUTTON-CARD %c v0.3.0 ",
+  "%c CLIMATE-BUTTON-CARD %c v0.4.0 ",
   "color:white;background:rgb(68,154,223);font-weight:700;",
   "color:rgb(68,154,223);background:white;font-weight:700;"
 );
