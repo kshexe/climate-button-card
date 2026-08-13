@@ -7,7 +7,7 @@
 ### HACS (Custom repository)
 
 1. HACS → 우측 상단 ⋮ → **Custom repositories**
-2. Repository: `https://github.com/<your-username>/climate-button-card`
+2. Repository: `https://github.com/kshexe/climate-button-card`
 3. Category: **Dashboard (Plugin)**
 
 ### 수동 설치
