@@ -8,7 +8,6 @@ const STATE_LABELS = {
   heat: "난방",
   dry: "제습",
   fan_only: "송풍",
-  auto: "자동",
   off: "꺼짐",
 };
 
@@ -78,9 +77,9 @@ class ClimateButtonCard extends HTMLElement {
             padding: 2px 4px;
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; cursor:pointer; }
-          .cbc-pairrow { display:flex; justify-content:space-between; align-items:center; }
+          .cbc-pairrow { display:grid; grid-template-columns: 1fr 1fr; gap:4px; }
           .cbc-cell { display:flex; align-items:center; gap:4px; font-size:10px; }
-          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; min-width:24px; }
+          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; width:24px; flex-shrink:0; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
@@ -112,7 +111,9 @@ class ClimateButtonCard extends HTMLElement {
     const hasTarget = state !== "off" && target !== null && target !== undefined;
     const color = STATE_COLORS[state] || "rgb(68, 154, 223)";
     const label = STATE_LABELS[state] || state;
-    const modes = (stateObj.attributes.hvac_modes || []).filter((m) => m !== "off");
+    const modes = (stateObj.attributes.hvac_modes || []).filter(
+      (m) => m !== "off" && STATE_LABELS[m]
+    );
 
     const tempSensor = this._config.temp_sensor ? this._hass.states[this._config.temp_sensor] : null;
     const humiSensor = this._config.humi_sensor ? this._hass.states[this._config.humi_sensor] : null;
