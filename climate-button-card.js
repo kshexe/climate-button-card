@@ -1,6 +1,7 @@
 // climate-button-card.js
 // Vanilla JS custom Lovelace card for any climate entity (aircon, boiler, etc.)
-// No LitElement dependency — plain Web Component, works regardless of HA frontend's internal Lit version.
+// Compact horizontal layout: left info column (140px) + right button rows, matching the
+// original button-card-templates design (aircon_info / aircon_power / aircon_mode / aircon_temp).
 
 const STATE_LABELS = {
   cool: "냉방",
@@ -33,7 +34,7 @@ class ClimateButtonCard extends HTMLElement {
   }
 
   getCardSize() {
-    return 3;
+    return 2;
   }
 
   set hass(hass) {
@@ -66,17 +67,25 @@ class ClimateButtonCard extends HTMLElement {
     this.innerHTML = `
       <ha-card>
         <style>
-          ha-card { padding: 12px 16px; }
-          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:14px; margin-bottom:10px; cursor:pointer; }
-          .cbc-title { font-weight:500; }
-          .cbc-row { display:flex; gap:8px; margin-bottom:10px; }
-          .cbc-box { flex:1; display:flex; justify-content:space-between; border:1px solid var(--divider-color,#444); border-radius:8px; padding:6px 10px; font-size:12px; }
-          .cbc-box-name { opacity:0.7; }
-          .cbc-box-value { font-weight:600; }
-          .cbc-btnrow { display:flex; gap:6px; margin-bottom:6px; }
-          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); background:rgba(120,120,120,0.15); cursor:pointer; }
+          ha-card { padding: 8px; }
+          .cbc-wrap { display:flex; gap:8px; }
+          .cbc-left {
+            width: 140px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px 4px;
+          }
+          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; cursor:pointer; }
+          .cbc-line { display:flex; justify-content:space-between; align-items:center; font-size:10px; }
+          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; min-width:24px; }
+          .cbc-value { font-size:12px; }
+          .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
+          .cbc-btnrow { display:flex; gap:6px; }
+          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); background:rgba(120,120,120,0.15); cursor:pointer; padding:0; }
           .cbc-btn:disabled { cursor:not-allowed; }
-          .cbc-power { flex:0 0 45px; display:flex; align-items:center; justify-content:center; }
+          .cbc-power { flex:0 0 40px; display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
         </style>
         <div class="cbc-body"></div>
@@ -107,43 +116,46 @@ class ClimateButtonCard extends HTMLElement {
     const tempSensor = this._config.temp_sensor ? this._hass.states[this._config.temp_sensor] : null;
     const humiSensor = this._config.humi_sensor ? this._hass.states[this._config.humi_sensor] : null;
 
-    let html = `
+    let html = `<div class="cbc-wrap">`;
+
+    // ===== left info column =====
+    html += `<div class="cbc-left">`;
+    html += `
       <div class="cbc-header" id="cbc-header">
-        <span class="cbc-title">${this._config.title}</span>
+        <span>${this._config.title}</span>
         <span style="color:${state !== "off" ? color : ""}">${label}</span>
       </div>
-      <div class="cbc-row">
-        <div class="cbc-box">
-          <span class="cbc-box-name">현재</span>
-          <span class="cbc-box-value">${current !== undefined ? current + "°" : "-"}</span>
-        </div>
-        <div class="cbc-box" style="border-color:${state !== "off" ? color : "white"}">
-          <span class="cbc-box-name">설정</span>
-          <span class="cbc-box-value">${hasTarget ? target + "°" : "-"}</span>
-        </div>
+    `;
+    html += `
+      <div class="cbc-line">
+        <span class="cbc-badge" style="border:1px solid white">현재</span>
+        <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
+      </div>
+      <div class="cbc-line">
+        <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
+        <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
       </div>
     `;
-
-    if (tempSensor || humiSensor) {
-      html += `<div class="cbc-row">`;
-      if (tempSensor) {
-        html += `
-          <div class="cbc-box">
-            <span class="cbc-box-name">온도</span>
-            <span class="cbc-box-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
-          </div>
-        `;
-      }
-      if (humiSensor) {
-        html += `
-          <div class="cbc-box">
-            <span class="cbc-box-name">습도</span>
-            <span class="cbc-box-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
-          </div>
-        `;
-      }
-      html += `</div>`;
+    if (tempSensor) {
+      html += `
+        <div class="cbc-line">
+          <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
+          <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
+        </div>
+      `;
     }
+    if (humiSensor) {
+      html += `
+        <div class="cbc-line">
+          <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
+          <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
+        </div>
+      `;
+    }
+    html += `</div>`; // .cbc-left
+
+    // ===== right button columns =====
+    html += `<div class="cbc-right">`;
 
     html += `<div class="cbc-btnrow">`;
     html += `
@@ -178,6 +190,9 @@ class ClimateButtonCard extends HTMLElement {
       `;
     });
     html += `</div>`;
+
+    html += `</div>`; // .cbc-right
+    html += `</div>`; // .cbc-wrap
 
     this._body.innerHTML = html;
 
@@ -218,7 +233,7 @@ window.customCards.push({
 });
 
 console.info(
-  "%c CLIMATE-BUTTON-CARD %c v0.2.0 ",
+  "%c CLIMATE-BUTTON-CARD %c v0.3.0 ",
   "color:white;background:rgb(68,154,223);font-weight:700;",
   "color:rgb(68,154,223);background:white;font-weight:700;"
 );
