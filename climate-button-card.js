@@ -85,7 +85,7 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-btnrow { display:flex; gap:6px; }
           .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); background:rgba(120,120,120,0.15); cursor:pointer; padding:0; }
           .cbc-btn:disabled { cursor:not-allowed; }
-          .cbc-power { flex:0 0 40px; display:flex; align-items:center; justify-content:center; }
+          .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
         </style>
         <div class="cbc-body"></div>
@@ -111,9 +111,10 @@ class ClimateButtonCard extends HTMLElement {
     const hasTarget = state !== "off" && target !== null && target !== undefined;
     const color = STATE_COLORS[state] || "rgb(68, 154, 223)";
     const label = STATE_LABELS[state] || state;
-    const modes = (stateObj.attributes.hvac_modes || []).filter(
-      (m) => m !== "off" && STATE_LABELS[m]
-    );
+    const MODE_ORDER = ["cool", "dry", "fan_only", "heat"];
+    const modes = (stateObj.attributes.hvac_modes || [])
+      .filter((m) => m !== "off" && STATE_LABELS[m])
+      .sort((a, b) => MODE_ORDER.indexOf(a) - MODE_ORDER.indexOf(b));
 
     const tempSensor = this._config.temp_sensor ? this._hass.states[this._config.temp_sensor] : null;
     const humiSensor = this._config.humi_sensor ? this._hass.states[this._config.humi_sensor] : null;
