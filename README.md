@@ -32,14 +32,14 @@ temps:
   - 29
 ```
 
-### 이서에어컨 (온습도 센서 포함)
+### 거실에어컨 (온습도 센서 포함)
 
 ```yaml
 type: custom:climate-button-card
-entity: climate.iseoeeokeon
-title: 이서에어컨
-temp_sensor: sensor.iseobangonseubdo_temperature
-humi_sensor: sensor.iseobangonseubdo_humidity
+entity: climate.geosileeokeon
+title: 거실에어컨
+temp_sensor: sensor.onseubdo_temperature
+humi_sensor: sensor.onseubdo_humidity
 temps:
   - 18
   - 25
