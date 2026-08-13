@@ -78,9 +78,8 @@ class ClimateButtonCard extends HTMLElement {
             padding: 2px 4px;
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; cursor:pointer; }
-          .cbc-pairrow { display:grid; grid-template-columns: 1fr 1fr; gap:4px; }
-          .cbc-cell { display:flex; align-items:center; gap:4px; font-size:10px; }
-          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; width:24px; flex-shrink:0; }
+          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:4px; row-gap:4px; align-items:center; }
+          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; font-size:10px; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
@@ -130,40 +129,31 @@ class ClimateButtonCard extends HTMLElement {
         <span style="color:${state !== "off" ? color : ""}">${label}</span>
       </div>
     `;
-    // row1: 현재 | 설정
+    // 현재/설정/온도/습도 - 하나의 4열 grid로 배치 (열 정렬 고정)
+    html += `<div class="cbc-info-grid">`;
     html += `
-      <div class="cbc-pairrow">
-        <div class="cbc-cell">
-          <span class="cbc-badge" style="border:1px solid white">현재</span>
-          <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
-        </div>
-        <div class="cbc-cell">
-          <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
-          <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
-        </div>
-      </div>
+      <span class="cbc-badge" style="border:1px solid white">현재</span>
+      <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
+      <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
+      <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
     `;
-    // row2: 온도 | 습도 (있을 때만)
-    if (tempSensor || humiSensor) {
-      html += `<div class="cbc-pairrow">`;
-      html += tempSensor
-        ? `
-          <div class="cbc-cell">
-            <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
-            <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
-          </div>
-        `
-        : `<div class="cbc-cell"></div>`;
-      html += humiSensor
-        ? `
-          <div class="cbc-cell">
-            <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
-            <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
-          </div>
-        `
-        : `<div class="cbc-cell"></div>`;
-      html += `</div>`;
+    if (tempSensor) {
+      html += `
+        <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
+        <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
+      `;
+    } else {
+      html += `<span></span><span></span>`;
     }
+    if (humiSensor) {
+      html += `
+        <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
+        <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
+      `;
+    } else {
+      html += `<span></span><span></span>`;
+    }
+    html += `</div>`;
     html += `</div>`; // .cbc-left
 
     // ===== right button columns =====
