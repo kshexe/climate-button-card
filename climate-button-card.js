@@ -66,24 +66,24 @@ class ClimateButtonCard extends HTMLElement {
     this.innerHTML = `
       <ha-card>
         <style>
-          ha-card { padding: 8px; }
+          ha-card { padding: 4px 8px; background: transparent; box-shadow: none; border: none; }
           .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
-            width: 140px;
+            width: 110px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 6px;
-            padding: 2px 4px;
+            gap: 3px;
+            padding: 0;
           }
-          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; cursor:pointer; }
-          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:4px; row-gap:4px; align-items:center; }
-          .cbc-badge { border-radius:5px; padding:0 4px; text-align:center; font-size:10px; }
-          .cbc-value { font-size:12px; }
+          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:2px; cursor:pointer; }
+          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:2px; row-gap:3px; align-items:center; }
+          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; }
+          .cbc-value { font-size:11px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
-          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); background:rgba(120,120,120,0.15); cursor:pointer; padding:0; }
+          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); background:var(--secondary-background-color, rgba(120,120,120,0.2)); cursor:pointer; padding:0; }
           .cbc-btn:disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
@@ -162,7 +162,7 @@ class ClimateButtonCard extends HTMLElement {
     html += `<div class="cbc-btnrow">`;
     html += `
       <button class="cbc-btn cbc-power" id="cbc-power" style="background:${
-        state === "off" ? "rgb(203, 79, 64)" : "rgba(120,120,120,0.15)"
+        state === "off" ? "rgb(203, 79, 64)" : "var(--secondary-background-color, rgba(120,120,120,0.2))"
       }">
         <ha-icon icon="mdi:power"></ha-icon>
       </button>
@@ -185,7 +185,7 @@ class ClimateButtonCard extends HTMLElement {
       html += `
         <button class="cbc-btn cbc-temp" data-temp="${t}" ${hasTarget ? "" : "disabled"}
           style="background:${
-            selected ? color : hasTarget ? "" : "rgba(120,120,120,0.15)"
+            selected ? color : hasTarget ? "" : "var(--secondary-background-color, rgba(120,120,120,0.2))"
           }; opacity:${hasTarget ? "1" : "0.3"}">
           ${t}℃
         </button>
