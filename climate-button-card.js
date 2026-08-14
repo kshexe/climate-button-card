@@ -83,8 +83,8 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-value { font-size:11px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
-          .cbc-btn { flex:1; height:35px; --control-button-border-radius:10px; font-size:12px; }
-          .cbc-btn[disabled] { cursor:not-allowed; }
+          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; }
+          .cbc-btn:disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
         </style>
@@ -161,24 +161,20 @@ class ClimateButtonCard extends HTMLElement {
 
     html += `<div class="cbc-btnrow">`;
     html += `
-      <ha-control-button class="cbc-btn cbc-power" id="cbc-power" style="${
-        state === "off"
-          ? "--control-button-background-color: rgb(203, 79, 64); --control-button-background-opacity: 1;"
-          : ""
+      <button class="cbc-btn cbc-power" id="cbc-power" style="${
+        state === "off" ? "background:rgb(203, 79, 64)" : ""
       }">
         <ha-icon icon="mdi:power"></ha-icon>
-      </ha-control-button>
+      </button>
     `;
     modes.forEach((mode) => {
       const active = state === mode;
       html += `
-        <ha-control-button class="cbc-btn cbc-mode" data-mode="${mode}" style="${
-          active
-            ? `--control-button-background-color: ${STATE_COLORS[mode] || color}; --control-button-background-opacity: 1;`
-            : ""
+        <button class="cbc-btn cbc-mode" data-mode="${mode}" style="${
+          active ? `background:${STATE_COLORS[mode] || color}` : ""
         }">
           ${STATE_LABELS[mode] || mode}
-        </ha-control-button>
+        </button>
       `;
     });
     html += `</div>`;
@@ -187,14 +183,10 @@ class ClimateButtonCard extends HTMLElement {
     (this._config.temps || []).forEach((t) => {
       const selected = hasTarget && target == t;
       html += `
-        <ha-control-button class="cbc-btn cbc-temp" data-temp="${t}" ${hasTarget ? "" : "disabled"}
-          style="${
-            selected
-              ? `--control-button-background-color: ${color}; --control-button-background-opacity: 1;`
-              : ""
-          }; opacity:${hasTarget ? "1" : "0.4"}">
+        <button class="cbc-btn cbc-temp" data-temp="${t}" ${hasTarget ? "" : "disabled"}
+          style="${selected ? `background:${color}` : ""}; opacity:${hasTarget ? "1" : "0.4"}">
           ${t}℃
-        </ha-control-button>
+        </button>
       `;
     });
     html += `</div>`;
