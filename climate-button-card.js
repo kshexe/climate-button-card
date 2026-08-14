@@ -85,7 +85,7 @@ class ClimateButtonCard extends HTMLElement {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 8px;
             padding: 4px;
             background: #1c1c1c;
             border-radius: 10px;
