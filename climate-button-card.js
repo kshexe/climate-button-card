@@ -79,7 +79,7 @@ class ClimateButtonCard extends HTMLElement {
           ha-card { padding: 4px 0; background: transparent; box-shadow: none; border: none; }
           .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
-            width: 120px;
+            width: 95px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -145,7 +145,7 @@ class ClimateButtonCard extends HTMLElement {
     html += `<div class="cbc-left">`;
     html += `
       <div class="cbc-header" id="cbc-header">
-        <span>${this._config.title}</span>
+        <span style="color:${state !== "off" ? color : ""}">${this._config.title}</span>
         <span style="color:${state !== "off" ? color : ""}">${label}</span>
       </div>
     `;
