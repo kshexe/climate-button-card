@@ -53,6 +53,15 @@ class ClimateButtonCard extends HTMLElement {
     this._hass.callService(domain, service, data);
   }
 
+  _haptic() {
+    const event = new CustomEvent("haptic", {
+      detail: "light",
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
+  }
+
   _moreInfo() {
     const event = new CustomEvent("hass-more-info", {
       detail: { entityId: this._config.entity },
@@ -85,7 +94,7 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-btn {
             flex:1;
             border-radius:10px;
-            height:45px;
+            height:40px;
             font-size:12px;
             display:flex;
             align-items:center;
@@ -216,23 +225,26 @@ class ClimateButtonCard extends HTMLElement {
 
     // wire events
     this._body.querySelector("#cbc-header").addEventListener("click", () => this._moreInfo());
-    this._body.querySelector("#cbc-power").addEventListener("click", () =>
+    this._body.querySelector("#cbc-power").addEventListener("click", () => {
+      this._haptic();
       this._callService("climate", "set_hvac_mode", {
         entity_id: this._config.entity,
         hvac_mode: "off",
-      })
-    );
+      });
+    });
     this._body.querySelectorAll(".cbc-mode").forEach((btn) => {
-      btn.addEventListener("click", () =>
+      btn.addEventListener("click", () => {
+        this._haptic();
         this._callService("climate", "set_hvac_mode", {
           entity_id: this._config.entity,
           hvac_mode: btn.dataset.mode,
-        })
-      );
+        });
+      });
     });
     this._body.querySelectorAll(".cbc-temp").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.classList.contains("cbc-disabled")) return;
+        this._haptic();
         this._callService("climate", "set_temperature", {
           entity_id: this._config.entity,
           temperature: parseFloat(btn.dataset.temp),
