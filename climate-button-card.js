@@ -83,11 +83,15 @@ class ClimateButtonCard extends HTMLElement {
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 0;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 4px;
+            background: #1c1c1c;
+            border-radius: 10px;
           }
-          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:14px; margin-bottom:6px; cursor:pointer; }
-          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:5px; align-items:center; }
+          .cbc-header { display:flex; justify-content:center; align-items:center; font-size:14px; cursor:pointer; }
+          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:3px; align-items:center; }
           .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:10px; white-space:nowrap; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:8px; justify-content:center; }
