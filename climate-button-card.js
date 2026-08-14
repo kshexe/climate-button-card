@@ -1,4 +1,5 @@
 // climate-button-card.js
+// v1.0.0
 // Vanilla JS custom Lovelace card for any climate entity (aircon, boiler, etc.)
 // Compact horizontal layout: left info column (140px, 2 rows x 2 cols) + right button rows,
 // matching the original button-card-templates design (aircon_info / power / mode / temp).
@@ -85,7 +86,7 @@ class ClimateButtonCard extends HTMLElement {
             justify-content: space-between;
             padding: 0;
           }
-          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:6px; cursor:pointer; }
+          .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:14px; margin-bottom:6px; cursor:pointer; }
           .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:2px; row-gap:6px; align-items:center; }
           .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; white-space:nowrap; }
           .cbc-value { font-size:12px; }
@@ -95,7 +96,7 @@ class ClimateButtonCard extends HTMLElement {
             flex:1;
             border-radius:10px;
             height:40px;
-            font-size:12px;
+            font-size:14px;
             display:flex;
             align-items:center;
             justify-content:center;
@@ -264,7 +265,7 @@ window.customCards.push({
 });
 
 console.info(
-  "%c CLIMATE-BUTTON-CARD %c v0.4.0 ",
+  "%c CLIMATE-BUTTON-CARD %c v1.0.0 ",
   "color:white;background:rgb(68,154,223);font-weight:700;",
   "color:rgb(68,154,223);background:white;font-weight:700;"
 );
