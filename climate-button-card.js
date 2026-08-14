@@ -77,7 +77,7 @@ class ClimateButtonCard extends HTMLElement {
       <ha-card>
         <style>
           ha-card { padding: 4px 0; background: transparent; box-shadow: none; border: none; }
-          .cbc-wrap { display:flex; gap:8px; align-items:center; }
+          .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
             width: 88px;
             flex-shrink: 0;
@@ -85,15 +85,15 @@ class ClimateButtonCard extends HTMLElement {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 6px 4px;
+            gap: 3px;
+            padding: 4px;
             background: #1c1c1c;
             border-radius: 10px;
           }
-          .cbc-header { display:flex; justify-content:center; align-items:center; font-size:14px; cursor:pointer; }
-          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:3px; align-items:center; }
-          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:10px; white-space:nowrap; }
-          .cbc-value { font-size:12px; }
+          .cbc-header { display:flex; justify-content:center; align-items:center; font-size:14px; line-height:1.1; cursor:pointer; }
+          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:2px; align-items:center; }
+          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:10px; line-height:1.3; white-space:nowrap; }
+          .cbc-value { font-size:12px; line-height:1.3; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:8px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
           .cbc-btn {
@@ -154,9 +154,14 @@ class ClimateButtonCard extends HTMLElement {
     `;
     // 현재/온도/습도 - 한 줄(3칸) grid로 배치, 설정 표시는 제거
     html += `<div class="cbc-info-grid">`;
+    let curColor = "";
+    if (current !== undefined) {
+      if (current < 20) curColor = "rgb(68, 154, 223)";
+      else if (current > 26) curColor = "rgb(203, 79, 64)";
+    }
     html += `
       <span class="cbc-badge" style="border:1px solid white">현재</span>
-      <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
+      <span class="cbc-value" style="color:${curColor}">${current !== undefined ? current + "°" : "-"}</span>
     `;
     if (tempSensor) {
       const tVal = parseFloat(tempSensor.state);
