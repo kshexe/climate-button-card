@@ -83,7 +83,7 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-value { font-size:11px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
-          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; appearance:none; -webkit-appearance:none; background:transparent; }
+          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; }
           .cbc-btn:disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
@@ -233,7 +233,7 @@ window.customCards.push({
 });
 
 console.info(
-  "%c CLIMATE-BUTTON-CARD %c v0.4.1 ",
+  "%c CLIMATE-BUTTON-CARD %c v0.4.0 ",
   "color:white;background:rgb(68,154,223);font-weight:700;",
   "color:rgb(68,154,223);background:white;font-weight:700;"
 );
