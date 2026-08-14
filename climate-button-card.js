@@ -149,17 +149,25 @@ class ClimateButtonCard extends HTMLElement {
       <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
     `;
     if (tempSensor) {
+      const tVal = parseFloat(tempSensor.state);
+      let tColor = "";
+      if (tVal < 20) tColor = "rgb(68, 154, 223)";
+      else if (tVal > 26) tColor = "rgb(203, 79, 64)";
       html += `
         <span class="cbc-badge" style="border:1px solid rgb(203, 79, 64)">온도</span>
-        <span class="cbc-value">${parseFloat(tempSensor.state).toFixed(1)}°</span>
+        <span class="cbc-value" style="color:${tColor}">${tVal.toFixed(1)}°</span>
       `;
     } else {
       html += `<span></span><span></span>`;
     }
     if (humiSensor) {
+      const hVal = parseFloat(humiSensor.state);
+      let hColor = "";
+      if (hVal < 40) hColor = "rgb(203, 79, 64)";
+      else if (hVal > 60) hColor = "rgb(68, 154, 223)";
       html += `
         <span class="cbc-badge" style="border:1px solid rgb(68, 154, 223)">습도</span>
-        <span class="cbc-value">${parseFloat(humiSensor.state).toFixed(1)}%</span>
+        <span class="cbc-value" style="color:${hColor}">${hVal.toFixed(1)}%</span>
       `;
     } else {
       html += `<span></span><span></span>`;
