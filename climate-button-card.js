@@ -83,8 +83,18 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-value { font-size:11px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
-          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; background:var(--secondary-background-color); }
-          .cbc-btn:disabled { cursor:not-allowed; }
+          .cbc-btn {
+            flex:1;
+            border-radius:10px;
+            height:35px;
+            font-size:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            user-select:none;
+          }
+          .cbc-btn.cbc-disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
         </style>
@@ -161,20 +171,20 @@ class ClimateButtonCard extends HTMLElement {
 
     html += `<div class="cbc-btnrow">`;
     html += `
-      <button class="cbc-btn cbc-power" id="cbc-power" style="${
+      <div class="cbc-btn cbc-power" id="cbc-power" style="${
         state === "off" ? "background:rgb(203, 79, 64)" : ""
       }">
         <ha-icon icon="mdi:power"></ha-icon>
-      </button>
+      </div>
     `;
     modes.forEach((mode) => {
       const active = state === mode;
       html += `
-        <button class="cbc-btn cbc-mode" data-mode="${mode}" style="${
+        <div class="cbc-btn cbc-mode" data-mode="${mode}" style="${
           active ? `background:${STATE_COLORS[mode] || color}` : ""
         }">
           ${STATE_LABELS[mode] || mode}
-        </button>
+        </div>
       `;
     });
     html += `</div>`;
@@ -183,10 +193,10 @@ class ClimateButtonCard extends HTMLElement {
     (this._config.temps || []).forEach((t) => {
       const selected = hasTarget && target == t;
       html += `
-        <button class="cbc-btn cbc-temp" data-temp="${t}" ${hasTarget ? "" : "disabled"}
+        <div class="cbc-btn cbc-temp ${hasTarget ? "" : "cbc-disabled"}" data-temp="${t}"
           style="${selected ? `background:${color}` : ""}; opacity:${hasTarget ? "1" : "0.4"}">
           ${t}℃
-        </button>
+        </div>
       `;
     });
     html += `</div>`;
@@ -213,12 +223,13 @@ class ClimateButtonCard extends HTMLElement {
       );
     });
     this._body.querySelectorAll(".cbc-temp").forEach((btn) => {
-      btn.addEventListener("click", () =>
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("cbc-disabled")) return;
         this._callService("climate", "set_temperature", {
           entity_id: this._config.entity,
           temperature: parseFloat(btn.dataset.temp),
-        })
-      );
+        });
+      });
     });
   }
 }
