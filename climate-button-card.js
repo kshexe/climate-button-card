@@ -79,7 +79,7 @@ class ClimateButtonCard extends HTMLElement {
           ha-card { padding: 4px 0; background: transparent; box-shadow: none; border: none; }
           .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
-            width: 95px;
+            width: 100px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -87,7 +87,7 @@ class ClimateButtonCard extends HTMLElement {
             padding: 0;
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:14px; margin-bottom:6px; cursor:pointer; }
-          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:2px; row-gap:6px; align-items:center; }
+          .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:5px; align-items:center; }
           .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; white-space:nowrap; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:8px; justify-content:center; }
@@ -146,16 +146,13 @@ class ClimateButtonCard extends HTMLElement {
     html += `
       <div class="cbc-header" id="cbc-header">
         <span style="color:${state !== "off" ? color : ""}">${this._config.title}</span>
-        <span style="color:${state !== "off" ? color : ""}">${label}</span>
       </div>
     `;
-    // 현재/설정/온도/습도 - 하나의 4열 grid로 배치 (열 정렬 고정)
+    // 현재/온도/습도 - 한 줄(3칸) grid로 배치, 설정 표시는 제거
     html += `<div class="cbc-info-grid">`;
     html += `
       <span class="cbc-badge" style="border:1px solid white">현재</span>
       <span class="cbc-value">${current !== undefined ? current + "°" : "-"}</span>
-      <span class="cbc-badge" style="border:1px solid ${state !== "off" ? color : "white"}">설정</span>
-      <span class="cbc-value">${hasTarget ? target + "°" : "-"}</span>
     `;
     if (tempSensor) {
       const tVal = parseFloat(tempSensor.state);
