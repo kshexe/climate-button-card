@@ -77,7 +77,7 @@ class ClimateButtonCard extends HTMLElement {
       <ha-card>
         <style>
           ha-card { padding: 4px 0; background: transparent; box-shadow: none; border: none; }
-          .cbc-wrap { display:flex; gap:8px; }
+          .cbc-wrap { display:flex; gap:8px; align-items:center; }
           .cbc-left {
             width: 88px;
             flex-shrink: 0;
