@@ -93,7 +93,7 @@ class ClimateButtonCard extends HTMLElement {
             justify-content:center;
             cursor:pointer;
             user-select:none;
-            background: rgba(120,120,120,0.15);
+            background: #1c1c1c;
           }
           .cbc-btn.cbc-disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
