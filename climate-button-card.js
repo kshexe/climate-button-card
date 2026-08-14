@@ -73,8 +73,7 @@ class ClimateButtonCard extends HTMLElement {
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 3px;
+            justify-content: space-between;
             padding: 0;
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:6px; cursor:pointer; }
