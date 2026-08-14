@@ -79,7 +79,7 @@ class ClimateButtonCard extends HTMLElement {
           ha-card { padding: 4px 0; background: transparent; box-shadow: none; border: none; }
           .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
-            width: 100px;
+            width: 88px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -88,7 +88,7 @@ class ClimateButtonCard extends HTMLElement {
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:14px; margin-bottom:6px; cursor:pointer; }
           .cbc-info-grid { display:grid; grid-template-columns: auto 1fr; column-gap:4px; row-gap:5px; align-items:center; }
-          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; white-space:nowrap; }
+          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:10px; white-space:nowrap; }
           .cbc-value { font-size:12px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:8px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
