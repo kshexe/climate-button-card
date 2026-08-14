@@ -69,7 +69,7 @@ class ClimateButtonCard extends HTMLElement {
           ha-card { padding: 4px 8px; background: transparent; box-shadow: none; border: none; }
           .cbc-wrap { display:flex; gap:8px; }
           .cbc-left {
-            width: 110px;
+            width: 120px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -79,11 +79,11 @@ class ClimateButtonCard extends HTMLElement {
           }
           .cbc-header { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:2px; cursor:pointer; }
           .cbc-info-grid { display:grid; grid-template-columns: auto 1fr auto 1fr; column-gap:2px; row-gap:3px; align-items:center; }
-          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; }
+          .cbc-badge { border-radius:5px; padding:0 3px; text-align:center; font-size:9px; white-space:nowrap; }
           .cbc-value { font-size:11px; }
           .cbc-right { flex:1; display:flex; flex-direction:column; gap:6px; justify-content:center; }
           .cbc-btnrow { display:flex; gap:6px; }
-          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; }
+          .cbc-btn { flex:1; border:none; border-radius:10px; height:35px; font-size:12px; color:var(--primary-text-color); cursor:pointer; padding:0; background:var(--secondary-background-color); }
           .cbc-btn:disabled { cursor:not-allowed; }
           .cbc-power { display:flex; align-items:center; justify-content:center; }
           .cbc-warning { padding:16px; color:var(--error-color); }
