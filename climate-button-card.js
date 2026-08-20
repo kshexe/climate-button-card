@@ -1,5 +1,5 @@
 // climate-button-card.js
-// v1.0.0
+// v1.1.0
 // Vanilla JS custom Lovelace card for any climate entity (aircon, boiler, etc.)
 // Compact horizontal layout: left info column (140px, 2 rows x 2 cols) + right button rows,
 // matching the original button-card-templates design (aircon_info / power / mode / temp).
@@ -271,7 +271,7 @@ window.customCards.push({
 });
 
 console.info(
-  "%c CLIMATE-BUTTON-CARD %c v1.0.0 ",
+  "%c CLIMATE-BUTTON-CARD %c v1.1.0 ",
   "color:white;background:rgb(68,154,223);font-weight:700;",
   "color:rgb(68,154,223);background:white;font-weight:700;"
 );
