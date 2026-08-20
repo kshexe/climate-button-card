@@ -99,7 +99,7 @@ class ClimateButtonCard extends HTMLElement {
           .cbc-btn {
             flex:1;
             border-radius:10px;
-            height:40px;
+            height:36px;
             font-size:14px;
             display:flex;
             align-items:center;
