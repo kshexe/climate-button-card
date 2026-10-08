@@ -1,5 +1,5 @@
 // climate-button-card.js
-// v1.1.0
+// v1.1.1
 // Vanilla JS custom Lovelace card for any climate entity (aircon, boiler, etc.)
 // Compact horizontal layout: left info column (140px, 2 rows x 2 cols) + right button rows,
 // matching the original button-card-templates design (aircon_info / power / mode / temp).
@@ -18,6 +18,11 @@ const STATE_COLORS = {
   dry: "rgb(68, 154, 223)",
   fan_only: "rgb(68, 154, 223)",
   auto: "rgb(68, 154, 223)",
+  // unknown/unavailable (e.g. rethink lost the connection) used to fall through to the
+  // default below, which was cool's own blue - making a dead entity look like it was
+  // actively cooling. Grey instead, so "no data" reads as clearly different from "cool".
+  unknown: "rgb(150, 150, 150)",
+  unavailable: "rgb(150, 150, 150)",
 };
 
 class ClimateButtonCard extends HTMLElement {
@@ -133,7 +138,10 @@ class ClimateButtonCard extends HTMLElement {
     const current = stateObj.attributes.current_temperature;
     const target = stateObj.attributes.temperature;
     const hasTarget = state !== "off" && target !== null && target !== undefined;
-    const color = STATE_COLORS[state] || "rgb(68, 154, 223)";
+    // Any state not in the map (a future hvac mode, or a typo) is unrecognised, not
+    // necessarily "no data" - but defaulting to grey is still safer than silently
+    // reusing cool's blue, which is what used to make a dead entity look like it was on.
+    const color = STATE_COLORS[state] || "rgb(150, 150, 150)";
     const label = STATE_LABELS[state] || state;
     const MODE_ORDER = ["cool", "dry", "fan_only", "heat"];
     const modes = (stateObj.attributes.hvac_modes || [])
