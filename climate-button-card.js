@@ -158,7 +158,7 @@ class ClimateButtonCard extends HTMLElement {
     html += `<div class="cbc-left">`;
     html += `
       <div class="cbc-header" id="cbc-header">
-        <span style="color:${state !== "off" ? color : ""}; opacity:${isUnknown ? "0.4" : "1"}">${this._config.title}</span>
+        <span style="color:${state !== "off" && !isUnknown ? color : ""}; opacity:${isUnknown ? "0.4" : "1"}">${this._config.title}</span>
       </div>
     `;
     // 현재/온도/습도 - 한 줄(3칸) grid로 배치, 설정 표시는 제거
