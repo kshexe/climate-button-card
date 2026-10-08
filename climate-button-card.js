@@ -142,6 +142,7 @@ class ClimateButtonCard extends HTMLElement {
     // necessarily "no data" - but defaulting to grey is still safer than silently
     // reusing cool's blue, which is what used to make a dead entity look like it was on.
     const color = STATE_COLORS[state] || "rgb(150, 150, 150)";
+    const isUnknown = state === "unknown" || state === "unavailable";
     const label = STATE_LABELS[state] || state;
     const MODE_ORDER = ["cool", "dry", "fan_only", "heat"];
     const modes = (stateObj.attributes.hvac_modes || [])
@@ -157,7 +158,7 @@ class ClimateButtonCard extends HTMLElement {
     html += `<div class="cbc-left">`;
     html += `
       <div class="cbc-header" id="cbc-header">
-        <span style="color:${state !== "off" ? color : ""}">${this._config.title}</span>
+        <span style="color:${state !== "off" ? color : ""}; opacity:${isUnknown ? "0.4" : "1"}">${this._config.title}</span>
       </div>
     `;
     // 현재/온도/습도 - 한 줄(3칸) grid로 배치, 설정 표시는 제거
